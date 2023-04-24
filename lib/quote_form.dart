@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuoteForm extends StatefulWidget {
   @override
@@ -10,11 +11,9 @@ class _QuoteFormState extends State<QuoteForm> {
   String _quote = '';
   String _author = '';
 
-  // フォームの送信処理を実装する
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // 名言を保存する処理を実装する
       Navigator.pop(context, {'quote': _quote, 'author': _author});
     }
   }
@@ -22,14 +21,25 @@ class _QuoteFormState extends State<QuoteForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Quote')),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Add Quote',
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           children: [
             TextFormField(
-              decoration: InputDecoration(labelText: 'Quote'),
+              decoration: InputDecoration(
+                labelText: 'Quote',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Please enter a quote';
@@ -38,13 +48,37 @@ class _QuoteFormState extends State<QuoteForm> {
               },
               onSaved: (value) => _quote = value!,
             ),
+            const SizedBox(height: 16),
             TextFormField(
-              decoration: InputDecoration(labelText: 'Author'),
+              decoration: InputDecoration(
+                labelText: 'Author',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
               onSaved: (value) => _author = value!,
             ),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _submitForm,
-              child: Text('Save Quote'),
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                // textStyle: const TextStyle(fontSize: 18),
+                textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontFamily: GoogleFonts.newTegomin().fontFamily,
+                      fontSize: 18,
+                    ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'Save Quote',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),
@@ -52,5 +86,3 @@ class _QuoteFormState extends State<QuoteForm> {
     );
   }
 }
-
-class RaisedButton {}
